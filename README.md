@@ -1,230 +1,158 @@
-# 🎓 QuizLog — Quiz Assessment Platform
+# QuizLog
 
-A modern, responsive full-stack assessment platform designed for conducting timed exams, subject-wise quizzes, authoritative server-side evaluations, and tracking student performance metrics.
+QuizLog is a quiz and assessment platform with a Python desktop application, a FastAPI backend, and PostgreSQL storage. Students can take timed quizzes and review their results; instructors can create quizzes and view assessment analytics.
 
----
+## Screenshots
 
-## 🧩 Platform Components
+### Student dashboard
 
-- **Desktop frontend**: Dark glassmorphism styling, interactive hover effects, procedural background and vine animations, question palette navigation, achievement badges, timer, and leaderboard using Python Tkinter.
-- **Backend API**: FastAPI endpoints, PostgreSQL schema and SQLAlchemy ORM models, Argon2 password hashing, PyJWT bearer token authentication, server-side exam grading, timer validation, and CBSE question bank seeding.
+![QuizLog student dashboard](docs/screenshots/desktop_dashboard_clean.png)
 
----
+### Timed quiz
 
-## 📸 Desktop Application Screenshots
+![QuizLog timed quiz](docs/screenshots/desktop_take_quiz_clean.png)
 
-### 🖥️ Student Dashboard & Live Quiz Catalog
-![Student Dashboard](docs/screenshots/desktop_dashboard_clean.png)
+### Assessment results
 
-### ⏱️ Timed Exam Engine & Question Palette
-![Take Quiz Engine](docs/screenshots/desktop_take_quiz_clean.png)
+![QuizLog assessment results](docs/screenshots/desktop_results_clean.png)
 
-### 📊 Server-Side Graded Results & Performance Breakdown
-![Results Screen](docs/screenshots/desktop_results_clean.png)
+### Leaderboard
 
-### 🏆 Interactive Medal Podium & Class Leaderboard
-![Leaderboard Podium](docs/screenshots/desktop_leaderboard_clean.png)
+![QuizLog leaderboard](docs/screenshots/desktop_leaderboard_clean.png)
 
----
+## Features
 
-## 🏗️ Architecture & Technology Stack
+- Student and instructor registration, authentication, and role-based dashboards.
+- Timed multiple-choice assessments with question navigation.
+- Server-side answer validation and grading when the API is available.
+- Results, answer explanations, attempt history, achievement badges, and a leaderboard.
+- Instructor tools for quiz creation and assessment analytics.
+- Offline demo mode with local data when the backend is unavailable.
 
-- **Frontend**: **Python Tkinter Desktop Application** (`frontend/quizsphere-frontend-python/frontend/`)
-  - Smooth multi-screen router architecture (`main.py`)
-  - Custom dark glassmorphism theme (`theme.py`) with per-subject dynamic color palettes
-  - Particle & flower vine canvas animations (`background.py`, `border.py`, `effects.py`)
-  - **Zero extra pip dependencies**: API communication built entirely using Python's standard library (`urllib.request`, `json`, `uuid`)
-- **Backend**: **FastAPI** (`backend/main.py`)
-  - 15 consolidated, production-ready REST API endpoints
-  - JWT Bearer authentication with Argon2 password encryption
-  - Server-side authoritative grading and strict time limit enforcement
-- **Database**: **PostgreSQL** with SQLAlchemy ORM
-  - 4 core relational tables: `users`, `quizzes`, `questions`, and `quiz_attempts`
-  - Automated database seeding with Class 11th & 12th CBSE questions
-- **Dual Execution Modes**:
-  - 🌐 **Live Server Mode**: Connects directly to FastAPI and PostgreSQL with real-time score calculation and live podium rankings.
-  - 💾 **Offline Demo Mode**: Automatic graceful fallback to local storage (`quizsphere_data.json`) if the backend server is offline or unreachable.
+## Technology
 
----
+| Component | Technologies |
+|---|---|
+| Desktop application | Python, Tkinter |
+| API | FastAPI, SQLAlchemy, Pydantic Settings |
+| Database | PostgreSQL |
+| Authentication | JWT bearer tokens, Argon2 password hashing |
 
-## 🌟 Key Platform Features
+The desktop application uses Python's standard library for HTTP requests. Backend dependencies are listed in `requirements.txt`.
 
-### 1. 📚 Comprehensive Curriculum & Question Banks
-Pre-seeded in both the **PostgreSQL Database** and the **Offline Demo Bank**:
-- ⚛️ **CBSE Physics (Classes 11 & 12)**: Gravitational constants, projectile motion, first law of thermodynamics, electrostatic fields in conducting shells, wave optics, polarization, and de Broglie wavelengths.
-- 🧪 **CBSE Chemistry (Classes 11 & 12)**: Quantum orbital nodes, VSEPR molecular geometry (XeF₄), reaction kinetics, transition metal oxidation states, Lucas test, and polymer monomer units.
-- 📐 **CBSE Mathematics (Classes 11 & 12)**: Chain rule calculus derivatives, definite integrals, adjoint matrices, probability, vector direction cosines, and differential equations.
-- 💻 **Computer Science & Python Programming**: Data types, mutability (tuples vs lists), list operations, OOP concepts, and SQL (`HAVING` vs `WHERE`).
-- 🌲 **Core Computer Science**: Data Structures & Algorithms (Stacks, Queues, QuickSort complexity, Binary Trees).
-- 🗄️ **Database Systems**: Relational database schema, primary keys, and query optimization.
-- 🌍 **General Knowledge & Web Basics**: Fundamentals of HTML5, CSS3, JavaScript ES6, and general science trivia.
+## Requirements
 
----
+- Python 3.11 or newer
+- PostgreSQL 14 or newer
+- Tkinter, typically included with Python
 
-### 2. 🎯 Student Assessment Engine
-- **Live Database Streaming**: Available quizzes are streamed directly from PostgreSQL.
-- **Timed Exam Session**: Live countdown clock, progress bar, and question palette with answered status indicators.
-- **Cheat-Proof Architecture**: Correct answers and explanations are securely withheld by the backend during active assessments (`GET /api/quizzes/{id}/questions`).
-- **Authoritative Server Grading**: Exam answers are submitted to the server (`POST /api/attempts/{id}/submit`), which validates timer constraints and grades each question accurately.
-- **Detailed Results Breakdown**: Visual score percentage ring, celebratory confetti for scores ≥ 80%, golden trophy for 100% scores, and per-question explanation reviews.
-- **Achievement Badges System**: Unlockable reward badges for consistency, high accuracy, and exam streaks (*First Steps, Perfectionist, Hat Trick, Explorer, High Flyer, Quiz Master*).
-- **Interactive Leaderboard**: Live student rankings calculated by average percentage scores and completed assessments, featuring a 1st/2nd/3rd place medal podium.
-- **Attempt History**: Full history of past assessments with subject filter chips (*Physics, Chemistry, Maths, Programming, GK, Web*).
+## Getting started
 
----
+### 1. Create a database
 
-### 3. 👨‍🏫 Instructor Management Tools
-- **Quiz Creator**: Interface to create custom quizzes with titles, descriptions, subject categories, time limits, and multiple-choice questions.
-- **Dual Persistence**: Newly created quizzes are saved immediately to PostgreSQL and mirrored locally for offline availability.
-- **Analytics & Participation Table**: Overview of total quizzes, student participation count, average scores, and pass rates.
+Create a PostgreSQL database for QuizLog:
 
----
-
-## 🚀 Setup & Execution Guide
-
-### 1. Prerequisites
-- **Python 3.11+**
-- **PostgreSQL 14+** (e.g. pgAdmin 4 or `psql`)
-
----
-
-### 2. Configure PostgreSQL Database
-Create a database named `quiz_platform` in PostgreSQL:
 ```sql
 CREATE DATABASE quiz_platform;
 ```
 
-Copy `.env.example` to `.env` in the project root and set your local PostgreSQL credentials:
-```env
-DATABASE_URL=postgresql+psycopg://username:password@localhost:5432/quiz_platform
-SECRET_KEY=replace_with_a_secure_random_secret_at_least_32_characters
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-```
-Generate a signing secret with `python -c "import secrets; print(secrets.token_urlsafe(32))"` and replace the `SECRET_KEY` placeholder. Keep `.env` private; it is excluded from Git.
+### 2. Configure the backend
 
----
+From the project root, copy the example environment file:
 
-### 3. Install Python Dependencies
-In the project root folder:
 ```powershell
-# Create virtual environment (optional but recommended)
+Copy-Item .env.example .env
+```
+
+Edit `.env` and set `DATABASE_URL` to match your PostgreSQL username and password. Generate a unique signing key:
+
+```powershell
+python -c "import secrets; print(secrets.token_urlsafe(32))"
+```
+
+Set the generated value as `SECRET_KEY`. Do not commit `.env`; it is excluded by `.gitignore`.
+
+### 3. Install dependencies and start the API
+
+Run these commands from the project root:
+
+```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-
-# Install backend dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+uvicorn backend.main:app --reload --port 8000
 ```
 
----
+On startup, the backend creates the database tables and seeds demo accounts and quizzes when the database is empty.
 
-### 4. Start the FastAPI Backend Server
+- API documentation: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- Health check: [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health)
+
+### 4. Start the desktop application
+
+Keep the API running, open a second terminal at the project root, and run:
+
 ```powershell
-uvicorn backend.main:app --port 8000
-```
-*On initial startup, the backend automatically seeds all PostgreSQL tables with default accounts, CBSE questions, and quizzes.*
-
-- **Interactive Swagger API Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **Database Health Check**: [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health)
-
----
-
-### 5. Start the Python Tkinter Desktop Frontend
-In a new terminal window:
-```powershell
-cd frontend\quizsphere-frontend-python\frontend
+Set-Location frontend\quizsphere-frontend-python\frontend
 python main.py
 ```
 
----
+The desktop application connects to `http://127.0.0.1:8000/api`. If the API is unavailable, it uses local demo data instead.
 
-## 👥 Default Demo Credentials
+## Demo accounts
 
-| Role | Email | Password | Permissions |
-|---|---|---|---|
-| **Student** | `student@college.edu` | `student123` | Take CBSE & CS assessments, review detailed answers, view badges and class leaderboard |
-| **Instructor** | `instructor@college.edu` | `instructor123` | Create new assessments, view participation statistics and quiz table |
+The backend seeds these accounts when its database is empty:
 
-*(You can also use the 1-click **"Demo Student"** and **"Demo Instructor"** buttons on the login screen).*
+| Role | Email | Password |
+|---|---|---|
+| Student | `student@college.edu` | `student123` |
+| Instructor | `instructor@college.edu` | `instructor123` |
 
----
+These are development credentials. Change or remove them before using the application outside a local demo environment.
 
-## 📡 REST API Reference
+## API endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
-| **GET** | `/api/health` | Health check verifying PostgreSQL database connectivity |
-| **POST** | `/api/auth/register` | Register a new student or instructor |
-| **POST** | `/api/auth/login` | Authenticate credentials and return JWT bearer token |
-| **GET** | `/api/auth/me` | Fetch authenticated user profile |
-| **GET** | `/api/quizzes` | Fetch all published assessments from PostgreSQL |
-| **POST** | `/api/quizzes` | Create a new assessment with questions |
-| **GET** | `/api/quizzes/{quiz_id}` | Fetch metadata of a single quiz |
-| **PUT** | `/api/quizzes/{quiz_id}` | Update quiz parameters or questions |
-| **DELETE** | `/api/quizzes/{quiz_id}` | Delete a quiz and all associated questions |
-| **GET** | `/api/quizzes/{quiz_id}/questions` | Sanitized question payload for students (*answers hidden*) |
-| **POST** | `/api/quizzes/{quiz_id}/start` | Initialize exam session & start timer |
-| **POST** | `/api/attempts/{attempt_id}/submit` | Authoritative server-side grading & time validation |
-| **GET** | `/api/attempts/{attempt_id}/result` | Fetch detailed score breakdown & explanation review |
-| **GET** | `/api/attempts/history` | Retrieve past attempt records for logged-in user |
-| **GET** | `/api/leaderboard` | Top student rankings computed from PostgreSQL database |
-| **GET** | `/api/quizzes/{quiz_id}/analytics` | Overall performance analytics for an assessment |
-| **GET** | `/api/quizzes/{quiz_id}/results` | Instructor overview of all student submissions |
+| GET | `/api/health` | Check API and database connectivity |
+| POST | `/api/auth/register` | Register an account |
+| POST | `/api/auth/login` | Authenticate and obtain a bearer token |
+| GET | `/api/auth/me` | Get the authenticated user's profile |
+| GET, POST | `/api/quizzes` | List quizzes or create a quiz |
+| GET, PUT, DELETE | `/api/quizzes/{quiz_id}` | Get, update, or delete a quiz |
+| GET | `/api/quizzes/{quiz_id}/questions` | Get quiz questions for an assessment |
+| POST | `/api/quizzes/{quiz_id}/start` | Start a timed attempt |
+| POST | `/api/attempts/{attempt_id}/submit` | Submit answers for grading |
+| GET | `/api/attempts/{attempt_id}/result` | Get an attempt result |
+| GET | `/api/attempts/history` | Get the authenticated user's attempt history |
+| GET | `/api/leaderboard` | Get leaderboard rankings |
+| GET | `/api/quizzes/{quiz_id}/analytics` | Get quiz analytics |
+| GET | `/api/quizzes/{quiz_id}/results` | Get quiz submission results |
 
----
-
-## 📁 Repository Structure
+## Project structure
 
 ```text
-quiz-assessment-platform/
-├── backend/
-│   ├── main.py                     # Consolidated FastAPI application (All 15 API routes, CORS, init)
-│   ├── config.py                   # Pydantic Settings & environment variables
-│   ├── database.py                 # SQLAlchemy engine, connection check, and DB session
-│   ├── models.py                   # PostgreSQL ORM models: User, Quiz, Question, QuizAttempt
-│   ├── schemas.py                  # Pydantic validation schemas (Auth, Quizzes, Attempts, Leaderboard)
-│   ├── services/
-│   │   └── auth.py                 # Argon2 password hashing and PyJWT security utilities
-│   └── seed/
-│       └── cbse_questions.py       # Comprehensive CBSE 11/12th & Python question bank
-│
-├── frontend/
-│   └── quizsphere-frontend-python/
-│       └── frontend/
-│           ├── main.py             # Desktop Tkinter application entry point & router
-│           ├── api.py              # Zero-dependency HTTP client connecting to FastAPI/PostgreSQL
-│           ├── data.py             # Data manager, local persistence, CBSE questions bank
-│           ├── theme.py            # Dark glassmorphism styling, safe color palettes, fonts
-│           ├── background.py       # Animated canvas background with interactive shapes
-│           ├── border.py           # Procedural flower vine border animation
-│           ├── effects.py          # Confetti particle engine and 3D spinning trophy
-│           └── pages/
-│               ├── home.py         # Welcome landing screen
-│               ├── login.py        # Authentication with role toggle & 1-click demo buttons
-│               ├── register.py     # Account creation with live password strength meter
-│               ├── student.py      # Student dashboard with live database quiz streaming
-│               ├── instructor.py   # Instructor portal with participation table
-│               ├── take_quiz.py    # Timed exam engine with question palette
-│               ├── results.py      # Score arc ring, trophy, badges, and explanation review
-│               ├── leaderboard.py  # Medal podium (1st, 2nd, 3rd) and student rankings
-│               ├── history.py      # Attempt records with subject filter chips
-│               ├── create_quiz.py  # Multi-question creator with options and explanations
-│               ├── profile.py      # Student/Instructor profile and display name editor
-│               └── common.py       # Reusable UI widgets (stat cards, badges, topic tags)
-│
-├── docs/
-│   └── screenshots/                # Real Tkinter desktop screenshots for README
-│       ├── desktop_dashboard_clean.png
-│       ├── desktop_take_quiz_clean.png
-│       ├── desktop_results_clean.png
-│       └── desktop_leaderboard_clean.png
-│
-├── .env.example                    # Template environment variables
-├── requirements.txt                # Python backend dependencies
-└── README.md                       # Complete platform documentation
+backend/
+  main.py                 FastAPI application and API endpoints
+  config.py               Environment-based application settings
+  database.py             SQLAlchemy engine and database sessions
+  models.py               Database models
+  schemas.py              API request and response schemas
+  seed/                   Sample quiz data
+  services/               Authentication utilities
+frontend/
+  quizsphere-frontend-python/
+    frontend/
+      main.py             Tkinter application entry point
+      api.py              Backend API client and offline fallback
+      data.py             Local demo data and persistence
+      pages/              Application screens
+docs/
+  screenshots/            README screenshots
+.env.example              Backend configuration template
+requirements.txt          Python dependencies
 ```
 
----
+## License
 
-## 📄 License
-This project is developed for academic assessment and learning purposes. © 2026 QuizLog.
+No license file is currently included in this repository.
